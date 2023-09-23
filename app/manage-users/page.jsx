@@ -12,8 +12,6 @@ export async function getData() {
 
   const data = await res.json();
 
-  console.log(data, "data");
-
   return data;
 }
 
@@ -28,18 +26,12 @@ export default async function ManageUsers() {
     return { field: el, caption: el };
   });
 
-  const data = "";
+  const data = userData.users.map((el) => {
+    delete el.id;
+    delete el.cart;
+    return el;
+  });
 
-  // const data = [
-  //   {
-  //     name: "Abdallah",
-  //     email: "test@gmail.com",
-  //   },
-  //   {
-  //     name: "Abdallah",
-  //     email: "test@gmail.com",
-  //   },
-  // ];
   return (
     <CardComponent title="Manage users">
       <MasterTable
@@ -47,7 +39,7 @@ export default async function ManageUsers() {
         allowUpdate
         allowPaging
         columnChooser={false}
-        // dataSource={data}
+        dataSource={data}
         colAttributes={columns}
         ColoredRows
       />
