@@ -1,9 +1,9 @@
 "use client";
 
+import LOGIN from "@/apis/user/login";
+import LOGOUT from "@/apis/user/logout";
 import { useRouter } from "next/navigation";
 // import Cookies from "js-cookie";
-import LOGIN from "@/apis/user/LOGIN";
-import LOGOUT from "@/apis/user/LOGOUT";
 
 export default function Login() {
   const { push } = useRouter();
@@ -44,6 +44,9 @@ export default function Login() {
       <button name="button" onClick={handleLogout}>
         Logout
       </button>
+
+      <p>Admin email : admin@gmail.com</p>
+      <p>Admin password : admin</p>
     </>
   );
 }

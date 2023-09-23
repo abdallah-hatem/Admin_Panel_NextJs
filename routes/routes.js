@@ -1,5 +1,9 @@
 export const routes = [
   {
+    title: "Login",
+    url: "/login",
+  },
+  {
     label: "Users",
     items: [
       {
@@ -21,7 +25,7 @@ export const routes = [
       },
       {
         title: "Manage categories",
-        url: "/manage-users",
+        url: "/manage-categories",
       },
     ],
   },

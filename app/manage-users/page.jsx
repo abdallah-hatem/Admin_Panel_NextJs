@@ -11,6 +11,10 @@ export async function getData() {
   });
 
   const data = await res.json();
+  if (data.message) {
+    console.log(data);
+    return [];
+  }
 
   return data;
 }
@@ -18,7 +22,7 @@ export async function getData() {
 export default async function ManageUsers() {
   const userData = await getData();
 
-  const colData = userData.users[0];
+  const colData = userData?.users[0];
   delete colData.id;
   delete colData.cart;
 
