@@ -7,61 +7,61 @@ import { Popup } from "devextreme-react/popup";
 
 export default function ProductsTable({ columns, data }) {
   data && console.log(data, "dataaaaaaa");
-  const [isPopUp, setIsPopUp] = useState(false);
-  const [popUpData, setPopUpData] = useState([]);
+  // const [isPopUp, setIsPopUp] = useState(false);
+  // const [popUpData, setPopUpData] = useState([]);
 
-  function getData() {
-    const data = popUpData?.SizeToColors?.map((el) => {
-      return (
-        <>
-          <p>{el.size}: </p>
-          <p>{el.colors.map((el) => el + ", ")}</p>
-        </>
-      );
-    });
+  // function getData() {
+  //   const data = popUpData?.SizeToColors?.map((el) => {
+  //     return (
+  //       <>
+  //         <p>{el.size}: </p>
+  //         <p>{el.colors.map((el) => el + ", ")}</p>
+  //       </>
+  //     );
+  //   });
 
-    return data;
-  }
+  //   return data;
+  // }
 
-  const masterButtons = [
-    {
-      hint: "size and colors",
-      icon: "copy",
-      visible: true,
-      disabled: false,
-      onClick: (e) => {
-        setPopUpData(e.row.data);
-        setIsPopUp(true);
-      },
-    },
+  // const masterButtons = [
+  //   {
+  //     hint: "size and colors",
+  //     icon: "copy",
+  //     visible: true,
+  //     disabled: false,
+  //     onClick: (e) => {
+  //       setPopUpData(e.row.data);
+  //       setIsPopUp(true);
+  //     },
+  //   },
 
-    {
-      hint: "Update",
-      icon: "edit",
-      visible: true,
-      disabled: false,
-      onClick: (e) => {
-        console.log(e);
-      },
-    },
-    {
-      name: "delete",
-    },
-  ];
+  //   {
+  //     hint: "Update",
+  //     icon: "edit",
+  //     visible: true,
+  //     disabled: false,
+  //     onClick: (e) => {
+  //       console.log(e);
+  //     },
+  //   },
+  //   {
+  //     name: "delete",
+  //   },
+  // ];
 
-  const popUp = [
-    {
-      title: "Sizes & Colors",
-      height: "auto",
-      visible: isPopUp,
-      hideOnOutsideClick: true,
-      onHiding: () => setIsPopUp(false),
-      children: getData(),
-    },
-  ];
+  // const popUp = [
+  //   {
+  //     title: "Sizes & Colors",
+  //     height: "auto",
+  //     visible: isPopUp,
+  //     hideOnOutsideClick: true,
+  //     onHiding: () => setIsPopUp(false),
+  //     children: getData(),
+  //   },
+  // ];
   return (
     <CardComponent title="Manage products">
-      <MasterTable
+      {/* <MasterTable
         allowDelete
         allowUpdate
         allowPaging
@@ -71,8 +71,9 @@ export default function ProductsTable({ columns, data }) {
         ColoredRows
       >
         <Column type="buttons" width={120}>
-          {masterButtons.map((el) => (
+          {masterButtons.map((el, index) => (
             <Button
+              key={index}
               hint={el.hint}
               icon={el.icon}
               visible={el.visible}
@@ -83,9 +84,10 @@ export default function ProductsTable({ columns, data }) {
           ))}
         </Column>
         {popUp.map(
-          (el) =>
+          (el, index) =>
             el.visible && (
               <Popup
+                key={index}
                 title={el.title}
                 height={el.height}
                 visible={el.visible}
@@ -96,7 +98,7 @@ export default function ProductsTable({ columns, data }) {
               </Popup>
             )
         )}
-      </MasterTable>
+      </MasterTable> */}
     </CardComponent>
   );
 }

@@ -6,35 +6,39 @@ export async function getData() {
   const res = await fetch(ApiBaseUrl + "products", {
     cache: "no-store",
     headers: { Cookie: cookies().toString() },
+
+    credentials: "include",
   });
 
-  const data = await res.json();
+  console.log(cookies().toString(), "cookies");
 
+  const data = await res.json();
+  console.log(data, "get product data");
   if (data.message) {
     console.log(data);
     return [];
   }
 
-  return data;
+  // return data;
 }
 
 export default async function ManageProducts() {
   const productsData = await getData();
 
-  const colData = productsData?.products[0];
-  delete colData.id;
-  delete colData.categoryId;
+  // const colData = productsData?.products[0];
+  // delete colData.id;
+  // delete colData.categoryId;
 
-  const columns = Object.keys(colData).map((el) => {
-    return {
-      field: el,
-      caption: el,
-      format: el === "price" && "currency",
-      visible: !(el === "SizeToColors"),
-    };
-  });
+  // const columns = Object.keys(colData).map((el) => {
+  //   return {
+  //     field: el,
+  //     caption: el,
+  //     format: el === "price" && "currency",
+  //     visible: !(el === "SizeToColors"),
+  //   };
+  // });
 
-  console.log(columns, "colsssssssss");
+  // console.log(columns, "colsssssssss");
 
   // function getSizes(el) {
   //   const sizes = el.SizeToColors?.map((el) => el.size.name);
@@ -42,23 +46,28 @@ export default async function ManageProducts() {
   //   return sizes;
   // }
 
-  function getSizeToColors(product) {
-    const sizeToColors = product?.SizeToColors.map((el) => {
-      return { size: el.size.name, colors: el.colors.map((el2) => el2.name) };
-    });
+  // function getSizeToColors(product) {
+  //   const sizeToColors = product?.SizeToColors.map((el) => {
+  //     return { size: el.size.name, colors: el.colors.map((el2) => el2.name) };
+  //   });
 
-    return sizeToColors;
-  }
+  //   return sizeToColors;
+  // }
 
-  const data = productsData?.products?.map((el) => {
-    delete el.id;
-    // delete el.categoryId;
-    return {
-      ...el,
-      Category: el.Category.name,
-      SizeToColors: getSizeToColors(el),
-    };
-  });
+  // const data = productsData?.products?.map((el) => {
+  //   delete el.id;
+  //   // delete el.categoryId;
+  //   return {
+  //     ...el,
+  //     Category: el.Category.name,
+  //     SizeToColors: getSizeToColors(el),
+  //   };
+  // });
 
-  return <ProductsTable columns={columns} data={data} />;
+  return (
+    <ProductsTable
+    //  columns={columns}
+    //  data={data}
+    />
+  );
 }
