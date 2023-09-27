@@ -1,2 +1,2 @@
-export const ApiBaseUrl = "http://localhost:8000/";
-export const ApiBaseUrl2 = "https://ecommerce-back-end-seven.vercel.app/";
+export const ApiBaseUrl2 = "http://localhost:8000/";
+export const ApiBaseUrl = "https://ecommerce-back-end-seven.vercel.app/";
