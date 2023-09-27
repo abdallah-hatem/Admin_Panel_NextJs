@@ -7,7 +7,7 @@ import ManageCategoriesTable from "./components/manageCategoriesTable";
 export async function getData() {
   const res = await fetch(ApiBaseUrl + "categories", {
     cache: "no-store",
-    headers: { Cookie: cookies().toString() },
+    // headers: { Cookie: cookies().toString() },
     credentials: "include",
   });
 
