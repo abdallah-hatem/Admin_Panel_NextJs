@@ -8,10 +8,11 @@ export async function getData() {
   const res = await fetch(ApiBaseUrl + "categories", {
     cache: "no-store",
     headers: { Cookie: cookies().toString() },
+    credentials: "include",
   });
 
   const data = await res.json();
-
+  console.log(data, "dataaa");
   if (data.message) {
     console.log(data);
     return [];
@@ -22,23 +23,18 @@ export async function getData() {
 
 export default async function ManageCategories() {
   const categoriesData = await getData();
-  const validData = categoriesData.length > 0;
 
-  const colData = validData && categoriesData?.categories[0];
+  const colData = categoriesData?.categories[0];
   delete colData.id;
 
-  const columns =
-    validData &&
-    Object.keys(colData).map((el) => {
-      return { field: el, caption: el };
-    });
+  const columns = Object.keys(colData).map((el) => {
+    return { field: el, caption: el };
+  });
 
-  const data =
-    validData &&
-    categoriesData.categories.map((el) => {
-      delete el.id;
-      return el;
-    });
+  const data = categoriesData.categories.map((el) => {
+    delete el.id;
+    return el;
+  });
 
-  return <ManageCategoriesTable data={categoriesData} />;
+  return <ManageCategoriesTable coloumns={columns} data={data} />;
 }

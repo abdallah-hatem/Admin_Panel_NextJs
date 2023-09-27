@@ -3,8 +3,7 @@
 import CardComponent from "@/components/webComponents/CardComponent";
 import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
 
-export default function ManageCategoriesTable({ coloumns, data }) {
-  console.log(data < "dataaaaa");
+export default function ManageCategoriesTable({ columns, data }) {
   return (
     <CardComponent title="Manage categories">
       <MasterTable
@@ -12,8 +11,8 @@ export default function ManageCategoriesTable({ coloumns, data }) {
         allowUpdate
         allowPaging
         columnChooser={false}
-        // dataSource={data}
-        // colAttributes={columns}
+        dataSource={data}
+        colAttributes={columns}
         ColoredRows
       />
     </CardComponent>

@@ -19,55 +19,60 @@ export async function getData() {
     return [];
   }
 
-  // return data;
+  return data;
 }
 
 export default async function ManageProducts() {
   const productsData = await getData();
 
-  // const colData = productsData?.products[0];
-  // delete colData.id;
-  // delete colData.categoryId;
+  const colData = productsData?.products[0];
 
-  // const columns = Object.keys(colData).map((el) => {
-  //   return {
-  //     field: el,
-  //     caption: el,
-  //     format: el === "price" && "currency",
-  //     visible: !(el === "SizeToColors"),
-  //   };
-  // });
+  function hiddenColumns(el) {
+    const hiddenColumns = ["SizeToColors", "QtySizeColor", "id", "categoryId"];
+    return hiddenColumns.includes(el);
+  }
 
-  // console.log(columns, "colsssssssss");
+  const columns = Object.keys(colData).map((el) => {
+    return {
+      field: el,
+      caption: el,
+      format: el === "price" && "currency",
+      visible: !hiddenColumns(el),
+    };
+  });
 
-  // function getSizes(el) {
-  //   const sizes = el.SizeToColors?.map((el) => el.size.name);
-  //   console.log(sizes.toString(), "sizessss");
-  //   return sizes;
-  // }
-
-  // function getSizeToColors(product) {
-  //   const sizeToColors = product?.SizeToColors.map((el) => {
-  //     return { size: el.size.name, colors: el.colors.map((el2) => el2.name) };
-  //   });
-
-  //   return sizeToColors;
-  // }
-
-  // const data = productsData?.products?.map((el) => {
-  //   delete el.id;
-  //   // delete el.categoryId;
-  //   return {
-  //     ...el,
-  //     Category: el.Category.name,
-  //     SizeToColors: getSizeToColors(el),
-  //   };
-  // });
-
-  return (
-    <ProductsTable
-    //  columns={columns}
-    //  data={data}
-    />
+  // manually added columns
+  columns.push(
+    { field: "sizes", caption: "Sizes" },
+    { field: "colors", caption: "Colors" }
   );
+
+  function getSizes(product) {
+    const sizes = [];
+    const sizeToColors = product?.QtySizeColor.map((el) => {
+      if (!sizes.includes(el.size.name)) sizes.push(el.size.name);
+    });
+
+    return sizes;
+  }
+  function getColors(product) {
+    const colors = [];
+
+    product?.QtySizeColor.map((el) => {
+      if (!colors.includes(el.color.name)) colors.push(el.color.name);
+    });
+
+    return colors;
+  }
+
+  const data = productsData?.products?.map((el) => {
+    return {
+      ...el,
+      Category: el.Category.name,
+      sizes: getSizes(el),
+      colors: getColors(el),
+    };
+  });
+
+  return <ProductsTable columns={columns} data={data} />;
 }
