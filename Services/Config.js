@@ -1,2 +1,4 @@
-export const ApiBaseUrl = "http://localhost:8000/";
-export const ApiBaseUrl2 = "https://ecommerce-back-end-seven.vercel.app/";
+export const ApiBaseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8000/"
+    : "https://nest-js-ecommerce.vercel.app/";
