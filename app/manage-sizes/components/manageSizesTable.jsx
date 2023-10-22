@@ -3,10 +3,10 @@
 import CardComponent from "@/components/webComponents/CardComponent";
 import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
 
-export default function ManageCategoriesTable({ columns, data }) {
+export default function ManageSizesTable({ columns, data }) {
   columns && data && console.log({ columns, data });
   return (
-    <CardComponent title="Manage categories">
+    <CardComponent title="Manage sizes">
       <MasterTable
         allowDelete
         allowUpdate

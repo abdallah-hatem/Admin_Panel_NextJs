@@ -1,66 +1,35 @@
-import { ApiBaseUrl } from "@/Services/Config";
+"use client";
 import AddProductTable from "./components/addProductTable";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
+import GET_COLORS from "@/apis/colors/getColors";
+import GET_SIZES from "@/apis/sizes/getSizes";
+import GET_CATEGORIES from "@/apis/categories/getCategories";
 
-export async function getCategoryData() {
-  const res = await fetch(ApiBaseUrl + "categories", {
-    cache: "no-store",
-    headers: { Cookie: cookies().toString() },
-  });
+export default function Products() {
+  const [colorsData, setColorsData] = useState(null);
+  const [sizesData, setSizesData] = useState(null);
+  const [categoriesData, setCategoriesData] = useState(null);
 
-  const data = await res.json();
+  useEffect(() => {
+    GET_COLORS().then((data) => setColorsData(data?.colors));
+    GET_SIZES().then((data) => setSizesData(data?.sizes));
+    GET_CATEGORIES().then((data) => setCategoriesData(data?.categories));
+  }, []);
 
-  if (data.message) {
-    console.log(data);
-    return [];
-  }
+  useEffect(() => {
+    console.log(colorsData, "colorsdataaa");
+    console.log(sizesData, "sizeDataaa");
+    console.log(categoriesData, "categoriesData");
+  }, [colorsData, sizesData, categoriesData]);
 
-  return data;
-}
-
-export async function getColorsData() {
-  const res = await fetch(ApiBaseUrl + "colors", {
-    cache: "no-store",
-    headers: { Cookie: cookies().toString() },
-  });
-
-  const data = await res.json();
-
-  if (data.message) {
-    console.log(data);
-    return [];
-  }
-
-  return data;
-}
-export async function getSizesData() {
-  const res = await fetch(ApiBaseUrl + "sizes", {
-    cache: "no-store",
-    headers: { Cookie: cookies().toString() },
-  });
-
-  const data = await res.json();
-
-  if (data.message) {
-    console.log(data);
-    return [];
-  }
-
-  return data;
-}
-
-export default async function Products() {
-  const categoryData = await getCategoryData();
-  const colorsData = await getColorsData();
-  const sizeData = await getSizesData();
   return (
-    categoryData &&
     colorsData &&
-    sizeData && (
+    sizesData &&
+    categoriesData && (
       <AddProductTable
-        colorsData={colorsData}
-        categoryData={categoryData.categories}
-        sizeData={sizeData}
+      colorsData={colorsData}
+      categoriesData={categoriesData}
+      sizesData={sizesData}
       />
     )
   );

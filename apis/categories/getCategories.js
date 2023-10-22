@@ -2,11 +2,10 @@ import { ApiBaseUrl } from "@/Services/Config";
 import REQUEST from "@/Services/Request";
 import { getCookie } from "cookies-next";
 
-export default async function ADD_CATEGORY(data) {
+export default async function GET_CATEGORIES() {
   return await REQUEST({
-    method: "POST",
+    method: "GET",
     url: ApiBaseUrl + `category`,
-    data,
     token: getCookie("jwt"),
   }).catch((error) => console.log(error));
 }

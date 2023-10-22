@@ -4,10 +4,10 @@ import REQUEST from "@/Services/Request";
 export default async function LOGIN(data) {
   return await REQUEST({
     method: "POST",
-    url: ApiBaseUrl + `login`,
+    url: ApiBaseUrl + `auth/login`,
     data,
-    withCredentials: true,
-    xhrFields: { withCredentials: true },
+    // withCredentials: true,
+    // xhrFields: { withCredentials: true },
   }).catch((error) => console.log(error));
 }
 

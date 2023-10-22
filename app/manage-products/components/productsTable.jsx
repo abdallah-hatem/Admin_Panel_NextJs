@@ -1,93 +1,22 @@
 "use client";
 import CardComponent from "@/components/webComponents/CardComponent";
 import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
-import { Fragment, useEffect, useState } from "react";
+import { useState } from "react";
 import { Column, Button } from "devextreme-react/data-grid";
-import { Popup } from "devextreme-react/popup";
+import SizeToColorsTable from "./sizeToColorsTable";
+import ModalComponent from "@/components/webComponents/ModalComponent";
+import { useRouter } from "next/navigation";
 import DELETE_PRODUCT from "@/apis/products/deleteProduct";
 
 export default function ProductsTable({ columns, data }) {
+  const { push } = useRouter();
   data && console.log(data, "dataaaaaaa");
+  columns && console.log(columns, "Colssssss");
   const [isPopUp, setIsPopUp] = useState(false);
-  const [popUpData, setPopUpData] = useState([]);
+  const [popUpData, setPopUpData] = useState(null);
   const [finalData, setFinalData] = useState([]);
 
-  useEffect(() => {
-    const data = popUpData?.QtySizeColor;
-
-    let sizes = [];
-    data?.forEach((el) => {
-      !sizes.includes(el.size.name) && sizes.push(el.size.name);
-    });
-
-    const finalData = [];
-    sizes.forEach((size) => {
-      let colors = [];
-      data.map((el) => el.size.name === size && colors.push(el.color.name));
-
-      finalData.push({
-        size: size,
-        colors,
-      });
-    });
-
-    const test = [];
-    finalData.map((el) =>
-      el.colors.map((el2) => test.push({ size: el.size, color: el2 }))
-    );
-
-    const qts = [];
-    test.forEach((el) => {
-      let sum = 0;
-      data.forEach((el2) => {
-        if (el.size === el2.size.name && el.color === el2.color.name) {
-          sum += el2.quantity;
-          qts.push({
-            size: el.size,
-            color: el.color,
-            qty: sum,
-          });
-        }
-      });
-    });
-
-    // console.log(test, "test");
-    // console.log(qts, "qts");
-    // console.log(data, "data");
-    // console.log(finalData, "finaldataa");
-
-    const final = qts.map((el) => {
-      return (
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          {/* <p>{el.size}</p>
-            <p>{el.color}</p>
-            <p>{el.qty}</p> */}
-          <p>sdsdsdds</p>
-        </div>
-      );
-    });
-
-    setFinalData(qts);
-  }, [popUpData]);
-
-  function getData() {
-    console.log(finalData, "finData");
-    const data = finalData.map((el) => {
-      return (
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <p>
-            {el.size} , {el.color} , {el.qty}
-          </p>
-        </div>
-      );
-    });
-    return data;
-  }
-
-  function handleDelete(e) {
-    const id = e.data.id;
-    DELETE_PRODUCT(id);
-  }
+  console.log(popUpData);
 
   const masterButtons = [
     {
@@ -106,22 +35,13 @@ export default function ProductsTable({ columns, data }) {
       visible: true,
       disabled: false,
       onClick: (e) => {
+        const id = e.row.data.id;
+        push(`editProduct/${id}`);
         console.log(e);
       },
     },
     {
       name: "delete",
-    },
-  ];
-
-  const popUp = [
-    {
-      title: "Details",
-      height: "auto",
-      visible: isPopUp,
-      hideOnOutsideClick: true,
-      onHiding: () => setIsPopUp(false),
-      children: getData(),
     },
   ];
 
@@ -135,7 +55,9 @@ export default function ProductsTable({ columns, data }) {
         dataSource={data}
         colAttributes={columns}
         ColoredRows
-        onRowRemoved={(e) => handleDelete(e)}
+        onRowRemoved={(e) => {
+          DELETE_PRODUCT(e.data.id);
+        }}
         editingMode="popup"
       >
         <Column type="buttons" width={120}>
@@ -151,21 +73,15 @@ export default function ProductsTable({ columns, data }) {
             />
           ))}
         </Column>
-        {popUp.map(
-          (el, index) =>
-            el.visible && (
-              <Popup
-                key={index}
-                title={el.title}
-                height={el.height}
-                visible={el.visible}
-                hideOnOutsideClick={el.hideOnOutsideClick}
-                onHiding={el.onHiding}
-              >
-                {el.children}
-              </Popup>
-            )
-        )}
+
+        <ModalComponent isOpen={isPopUp} onCancel={() => setIsPopUp(false)}>
+          <CardComponent title="Details">
+            <SizeToColorsTable
+              productId={popUpData?.id}
+              defaultData={popUpData?.SizeToColors}
+            />
+          </CardComponent>
+        </ModalComponent>
       </MasterTable>
     </CardComponent>
   );

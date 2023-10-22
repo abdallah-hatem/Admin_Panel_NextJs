@@ -255,7 +255,7 @@ function MasterTable({
         )}
         {/* <Sorting mode="single" /> */}
 
-        {/* <SearchPanel placeholder={placeholder)} visible={searchPanel} /> */}
+        <SearchPanel placeholder={placeholder} visible={searchPanel} />
         <ColumnChooser enabled={columnChooser} />
         <FilterRow visible={filterRow} />
         <HeaderFilter visible={headerFilter} />

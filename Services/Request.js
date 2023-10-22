@@ -35,10 +35,10 @@ const REQUEST = function (options) {
 
   return client({
     ...options,
-    // headers: {
-    //   ...axios.defaults.headers,
-    // },
-    headers: {},
+    headers: {
+      ...axios.defaults.headers,
+      Authorization: "Bearer " + options.token,
+    },
   })
     .then(onSuccess)
     .catch(onError);

@@ -30,6 +30,32 @@ export const routes = [
     ],
   },
   {
+    label: "Colors",
+    items: [
+      {
+        title: "Add colors",
+        url: "/colors",
+      },
+      {
+        title: "Manage colors",
+        url: "/manage-colors",
+      },
+    ],
+  },
+  {
+    label: "Sizes",
+    items: [
+      {
+        title: "Add sizes",
+        url: "/sizes",
+      },
+      {
+        title: "Manage sizes",
+        url: "/manage-sizes",
+      },
+    ],
+  },
+  {
     label: "Products",
     items: [
       {

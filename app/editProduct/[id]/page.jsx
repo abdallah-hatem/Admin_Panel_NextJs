@@ -1,28 +1,68 @@
 "use client";
 
 import CardComponent from "@/components/webComponents/CardComponent";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ModalComponent from "@/components/webComponents/ModalComponent";
-import AddDetailsTable from "./addDetailsTable";
-import ADD_PRODUCT from "@/apis/products/addProduct";
+import { useParams } from "next/navigation";
+import AddDetailsTable from "@/app/products/components/addDetailsTable";
+import GET_CATEGORIES from "@/apis/categories/getCategories";
+import GET_PRODUCT_BY_ID from "@/apis/products/getProductById";
+import GET_SIZES from "@/apis/sizes/getSizes";
+import GET_COLORS from "@/apis/colors/getColors";
+import UPDATE_PRODUCT_AND_STC from "@/apis/products/updateProduct";
 
-export default function AddProductTable({
-  colorsData,
-  categoriesData,
-  sizesData,
-}) {
+export default function EditProduct() {
   const defaultValues = useRef({
     desc: "",
     name: "",
     price: "",
-    quantity: "",
-    sizeId: "",
     categoryId: "",
   });
   const [values, setValues] = useState(defaultValues.current);
 
+  const router = useParams();
+  const productId = router.id;
+
+  const [productData, setProductData] = useState(null);
+  const [sizesData, setSizesData] = useState(null);
+  const [colorsData, setColorsData] = useState(null);
+  const [categoriesData, setCategoriesData] = useState(null);
+
   const [isPopUp, setIsPopUp] = useState(false);
   const [sizeToColors, setSizeToColors] = useState([]);
+
+  console.log(sizeToColors, "sizeToColors");
+  console.log(productData, "productData");
+  console.log(sizesData, "sizesData");
+  console.log(colorsData, "colorsData");
+  console.log(categoriesData, "categoriesData");
+
+  async function getData() {
+    GET_PRODUCT_BY_ID(productId).then((data) => setProductData(data.product));
+    GET_SIZES().then((data) => setSizesData(data.sizes));
+    GET_COLORS().then((data) => setColorsData(data.colors));
+    GET_CATEGORIES().then((data) => setCategoriesData(data.categories));
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    console.log(values, "valsss");
+  }, [values]);
+
+  useEffect(() => {
+    setDefVals();
+  }, [productData]);
+
+  function setDefVals() {
+    if (productData) {
+      const { id, Category, SizeToColors, ...rest } = productData;
+      setValues((prev) => ({ ...prev, ...rest }));
+    }
+  }
+
   console.log(sizeToColors, "SizeToColorssss");
 
   const handleChange = useCallback((e) => {
@@ -32,16 +72,20 @@ export default function AddProductTable({
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const data = {
+    let data = {
       ...values,
       price: Number(values.price),
       categoryId: Number(values.categoryId),
-      sizeToColors,
+      productId: productData && productData.id,
     };
+
+    if (sizeToColors.length > 0) {
+      data.sizeToColors = sizeToColors;
+    }
 
     console.log(data, "dataaa");
 
-    ADD_PRODUCT(data);
+    UPDATE_PRODUCT_AND_STC(data, productId);
   }
 
   const inputs = [
@@ -76,8 +120,11 @@ export default function AddProductTable({
   ];
 
   return (
-    <>
-      <CardComponent title="Add product">
+    productData &&
+    sizesData &&
+    colorsData &&
+    categoriesData && (
+      <CardComponent title="Edit product">
         <>
           <form
             onSubmit={handleSubmit}
@@ -98,6 +145,7 @@ export default function AddProductTable({
               onChange={(e) => handleChange(e)}
               name="categoryId"
               placeholder="Categories"
+              defaultValue={values["categoryId"]}
             >
               <option value="">--Categories--</option>
               {categoriesData?.map((el) => (
@@ -118,8 +166,8 @@ export default function AddProductTable({
 
             {/* Colors Modal */}
             <ModalComponent isOpen={isPopUp} onCancel={() => setIsPopUp(false)}>
-              <CardComponent title="Add details">
-                {sizesData.map((el, index) => (
+              <CardComponent title="Edit details">
+                {productData.SizeToColors.map((el, index) => (
                   <AddDetailsTable
                     setSizeToColors={setSizeToColors}
                     sizeToColors={sizeToColors}
@@ -127,6 +175,7 @@ export default function AddProductTable({
                     id={index}
                     colorsData={colorsData}
                     sizesData={sizesData}
+                    defaultData={el}
                   />
                 ))}
               </CardComponent>
@@ -138,6 +187,6 @@ export default function AddProductTable({
           </form>
         </>
       </CardComponent>
-    </>
+    )
   );
 }

@@ -2,8 +2,9 @@
 
 import LOGIN from "@/apis/user/login";
 import LOGOUT from "@/apis/user/logout";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-// import Cookies from "js-cookie";
+import { setCookie } from "cookies-next";
 
 export default function Login() {
   const { push } = useRouter();
@@ -16,20 +17,21 @@ export default function Login() {
 
     const loginData = await LOGIN(data);
 
-    // if (loginData) {
-    //   const cookieData = await GET_COOKIE();
-    //   if (cookieData) {
-    //     Cookies.set("jwt", cookieData.cookie, { expires: 7 });
-    //     push("/");
-    //   }
-    // }
+    if (loginData) {
+      const token = loginData.jwt;
+      if (token) {
+        const expires = 1 / 48; //30 mins
+        Cookies.set("jwt", token, { expires });
+
+        push("/");
+      }
+    }
   }
 
   async function handleLogout() {
-    const logout = await LOGOUT();
-    // Cookies.remove("jwt");
-
-    logout && push("/login");
+    // const logout = await LOGOUT();
+    Cookies.remove("jwt", { path: "/" });
+    push("/login");
   }
   return (
     <>
@@ -46,7 +48,7 @@ export default function Login() {
       </button>
 
       <p>Admin email : admin@gmail.com</p>
-      <p>Admin password : admin</p>
+      <p>Admin password : admin123</p>
     </>
   );
 }
