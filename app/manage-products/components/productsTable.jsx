@@ -36,7 +36,7 @@ export default function ProductsTable({ columns, data }) {
       disabled: false,
       onClick: (e) => {
         const id = e.row.data.id;
-        push(`editProduct/${id}`);
+        push(`edit-product/${id}`);
         console.log(e);
       },
     },
