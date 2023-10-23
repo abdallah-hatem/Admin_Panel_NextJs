@@ -57,6 +57,7 @@ export default function AddDetailsTable({
         <Select
           defaultValue={defaultData && defaultData.sizeId}
           placeholder="Please select a size"
+          disabled={defaultData}
         >
           {sizesData.map((el) => (
             <Option value={el.id}>{el.name}</Option>

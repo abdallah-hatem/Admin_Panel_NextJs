@@ -31,11 +31,11 @@ export default function EditProduct() {
   const [isPopUp, setIsPopUp] = useState(false);
   const [sizeToColors, setSizeToColors] = useState([]);
 
-  console.log(sizeToColors, "sizeToColors");
-  console.log(productData, "productData");
-  console.log(sizesData, "sizesData");
-  console.log(colorsData, "colorsData");
-  console.log(categoriesData, "categoriesData");
+  // console.log(sizeToColors, "sizeToColors");
+  // console.log(productData, "productData");
+  // console.log(sizesData, "sizesData");
+  // console.log(colorsData, "colorsData");
+  // console.log(categoriesData, "categoriesData");
 
   async function getData() {
     GET_PRODUCT_BY_ID(productId).then((data) => setProductData(data.product));
@@ -48,9 +48,9 @@ export default function EditProduct() {
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log(values, "valsss");
-  }, [values]);
+  // useEffect(() => {
+  //   console.log(values, "valsss");
+  // }, [values]);
 
   useEffect(() => {
     setDefVals();
@@ -63,7 +63,7 @@ export default function EditProduct() {
     }
   }
 
-  console.log(sizeToColors, "SizeToColorssss");
+  // console.log(sizeToColors, "SizeToColorssss");
 
   const handleChange = useCallback((e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -83,7 +83,7 @@ export default function EditProduct() {
       data.sizeToColors = sizeToColors;
     }
 
-    console.log(data, "dataaa");
+    // console.log(data, "dataaa");
 
     UPDATE_PRODUCT_AND_STC(data, productId);
   }

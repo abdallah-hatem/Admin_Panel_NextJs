@@ -1,18 +1,11 @@
 import axios from "axios";
 import { ApiBaseUrl } from "./Config";
 
-/**
- * Create an Axios Client with defaults
- */
-
 export const client = axios.create({
   baseURL: ApiBaseUrl,
 });
 
-/**
- * Request Wrapper with default success/error actions
- */
-const REQUEST = function (options) {
+async function REQUEST(options) {
   const onSuccess = function (response) {
     return response.data;
   };
@@ -20,13 +13,8 @@ const REQUEST = function (options) {
     console.error(error);
 
     if (error.response) {
-      // Request was made but server responded with something
-      // other than 2xx
-      // console.error('Status:', error.response.status);
       if (error.response.status === 401) {
-        window.href = "/log-in";
-        //  localStorage.removeItem("user");
-        //window.location.reload();
+        window.href = "/login";
       }
       return Promise.reject(error.response.data);
     }
@@ -42,6 +30,6 @@ const REQUEST = function (options) {
   })
     .then(onSuccess)
     .catch(onError);
-};
+}
 
 export default REQUEST;
