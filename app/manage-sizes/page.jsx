@@ -5,11 +5,10 @@ import ManageSizesTable from "./components/manageSizesTable";
 import GET_SIZES from "@/apis/sizes/getSizes";
 
 export default function ManageSizes() {
-  const [sizesData, setSizsData] = useState(null);
+  const [sizesData, setSizsData] = useState([]);
 
-  async function getColorsData() {
-    const sizesData = await GET_SIZES();
-    setSizsData(sizesData?.sizes);
+  function getColorsData() {
+    GET_SIZES().then((data) => setSizsData(data.sizes));
   }
 
   useEffect(() => {
@@ -40,7 +39,9 @@ export default function ManageSizes() {
     return data;
   }
 
-  return (
-    sizesData && <ManageSizesTable coloumns={getCols()} data={getData()} />
+  return sizesData.length > 0 ? (
+    <ManageSizesTable coloumns={getCols()} data={getData()} />
+  ) : (
+    <h3>please add Size first</h3>
   );
 }

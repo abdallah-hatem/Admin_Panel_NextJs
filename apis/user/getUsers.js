@@ -1,11 +1,11 @@
 import { ApiBaseUrl } from "@/Services/Config";
 import REQUEST from "@/Services/Request";
+import { getCookie } from "cookies-next";
 
 export default async function GET_USERS() {
   return await REQUEST({
-    method: "POST",
+    method: "GET",
     url: ApiBaseUrl + `user`,
-    withCredentials: true,
-    xhrFields: { withCredentials: true },
+    token: getCookie("jwt"),
   }).catch((error) => console.log(error));
 }

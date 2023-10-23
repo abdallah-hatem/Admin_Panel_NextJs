@@ -1,52 +1,57 @@
-import { ApiBaseUrl } from "@/Services/Config";
-import GET_USERS from "@/apis/user/getUser";
+"use client";
+
+import GET_USERS from "@/apis/user/getUsers";
 import CardComponent from "@/components/webComponents/CardComponent";
 import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
 
-export async function getData() {
-  const res = await fetch(ApiBaseUrl + "user", {
-    cache: "no-store",
-    headers: { Cookie: cookies().toString() },
-  });
+export default function ManageUsers() {
+  const [users, setUsers] = useState([]);
 
-  const data = await res.json();
-  if (data.message) {
-    console.log(data);
-    return [];
+  function getUsers() {
+    GET_USERS().then((data) => setUsers(data.users));
   }
 
-  return data;
-}
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-export default async function ManageUsers() {
-  const userData = await getData();
+  function getCols() {
+    const colData = users[0];
+    delete colData.id;
+    delete colData.cart;
 
-  const colData = userData?.users[0];
-  delete colData.id;
-  delete colData.cart;
+    const columns = Object.keys(colData).map((el) => {
+      return { field: el, caption: el };
+    });
 
-  const columns = Object.keys(colData).map((el) => {
-    return { field: el, caption: el };
-  });
+    return columns;
+  }
 
-  const data = userData.users.map((el) => {
-    delete el.id;
-    delete el.cart;
-    return el;
-  });
+  function getData() {
+    const data = users.map((el) => {
+      delete el.id;
+      delete el.cart;
+      return el;
+    });
+    return data;
+  }
 
   return (
     <CardComponent title="Manage users">
-      <MasterTable
-        allowDelete
-        allowUpdate
-        allowPaging
-        columnChooser={false}
-        dataSource={data}
-        colAttributes={columns}
-        ColoredRows
-      />
+      {users.length > 0 ? (
+        <MasterTable
+          allowDelete
+          allowUpdate
+          allowPaging
+          columnChooser={false}
+          dataSource={getData()}
+          colAttributes={getCols()}
+          ColoredRows
+        />
+      ) : (
+        <h3>please add a user first</h3>
+      )}
     </CardComponent>
   );
 }

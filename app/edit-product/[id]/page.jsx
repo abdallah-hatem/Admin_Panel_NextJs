@@ -48,9 +48,9 @@ export default function EditProduct() {
     getData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(values, "valsss");
-  // }, [values]);
+  useEffect(() => {
+    console.log(values, "valsss");
+  }, [values]);
 
   useEffect(() => {
     setDefVals();
@@ -63,7 +63,7 @@ export default function EditProduct() {
     }
   }
 
-  // console.log(sizeToColors, "SizeToColorssss");
+  console.log(sizeToColors, "SizeToColorssss");
 
   const handleChange = useCallback((e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -83,9 +83,9 @@ export default function EditProduct() {
       data.sizeToColors = sizeToColors;
     }
 
-    // console.log(data, "dataaa");
+    console.log(data, "dataaa");
 
-    UPDATE_PRODUCT_AND_STC(data, productId);
+    // UPDATE_PRODUCT_AND_STC(data, productId);
   }
 
   const inputs = [

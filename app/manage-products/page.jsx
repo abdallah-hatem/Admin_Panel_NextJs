@@ -56,11 +56,9 @@ export default function ManageProducts() {
     return data;
   }
 
-  return (
-    sizesData &&
-    productsData &&
-    productsData?.length > 0 && (
-      <ProductsTable columns={getCols()} data={getData()} sizes={sizesData} />
-    )
+  return sizesData && productsData && productsData?.length > 0 ? (
+    <ProductsTable columns={getCols()} data={getData()} sizes={sizesData} />
+  ) : (
+    <h2>No Products Found</h2>
   );
 }

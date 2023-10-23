@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import GET_CATEGORIES from "@/apis/categories/getCategories";
 
 export default function ManageCategories() {
-  const [categoriesData, setCategoriesData] = useState(null);
+  const [categoriesData, setCategoriesData] = useState([]);
 
   async function getCategoriesData() {
     const categories = await GET_CATEGORIES();
@@ -42,9 +42,9 @@ export default function ManageCategories() {
     return data;
   }
 
-  return (
-    categoriesData && (
-      <ManageCategoriesTable coloumns={getCols()} data={getData()} />
-    )
+  return categoriesData.length > 0 ? (
+    <ManageCategoriesTable coloumns={getCols()} data={getData()} />
+  ) : (
+    <h3>please, add categories first</h3>
   );
 }

@@ -3,8 +3,8 @@
 import LOGOUT from "@/apis/user/logout";
 import SIGNUP from "@/apis/user/signup";
 import CardComponent from "@/components/webComponents/CardComponent";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-// import Cookies from "js-cookie";
 
 export default function Users() {
   const { push } = useRouter();
@@ -16,21 +16,11 @@ export default function Users() {
     const data = Object.fromEntries(fomrData);
 
     const signupData = await SIGNUP(data);
-
-    // if (loginData) {
-    //   const cookieData = await GET_COOKIE();
-    //   if (cookieData) {
-    //     Cookies.set("jwt", cookieData.cookie, { expires: 7 });
-    //     push("/");
-    //   }
-    // }
   }
 
   async function handleLogout() {
-    const logout = await LOGOUT();
-    // Cookies.remove("jwt");
-
-    logout && push("/login");
+    Cookies.remove("jwt");
+    push("/login");
   }
   return (
     <CardComponent title="Add users">

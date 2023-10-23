@@ -22,15 +22,24 @@ export default function Products() {
     console.log(categoriesData, "categoriesData");
   }, [colorsData, sizesData, categoriesData]);
 
-  return (
-    colorsData &&
-    sizesData &&
-    categoriesData && (
-      <AddProductTable
+  function eligibleToAdd() {
+    return (
+      colorsData &&
+      colorsData.lenght > 0 &&
+      sizesData &&
+      sizesData.lenght > 0 &&
+      categoriesData &&
+      categoriesData.lenght > 0
+    );
+  }
+
+  return eligibleToAdd() ? (
+    <AddProductTable
       colorsData={colorsData}
       categoriesData={categoriesData}
       sizesData={sizesData}
-      />
-    )
+    />
+  ) : (
+    <h3>please add categories, sizes and colors first</h3>
   );
 }

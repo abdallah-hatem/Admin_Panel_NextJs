@@ -1,13 +1,10 @@
 "use client";
-import { ApiBaseUrl } from "@/Services/Config";
-import CardComponent from "@/components/webComponents/CardComponent";
-import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
 import ManageColorsTable from "./components/manageColorsTable";
 import { useEffect, useState } from "react";
 import GET_COLORS from "@/apis/colors/getColors";
 
 export default function ManageColors() {
-  const [colorsData, setColorsData] = useState(null);
+  const [colorsData, setColorsData] = useState([]);
 
   async function getColorsData() {
     const colorsData = await GET_COLORS();
@@ -42,7 +39,9 @@ export default function ManageColors() {
     return data;
   }
 
-  return (
-    colorsData && <ManageColorsTable coloumns={getCols()} data={getData()} />
+  return colorsData.length > 0 ? (
+    <ManageColorsTable coloumns={getCols()} data={getData()} />
+  ) : (
+    <h3>please add colors first</h3>
   );
 }
