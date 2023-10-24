@@ -5,6 +5,7 @@ import { useCallback, useRef, useState } from "react";
 import ModalComponent from "@/components/webComponents/ModalComponent";
 import AddDetailsTable from "./addDetailsTable";
 import ADD_PRODUCT from "@/apis/products/addProduct";
+import { Button } from "antd";
 
 export default function AddProductTable({
   colorsData,
@@ -23,6 +24,8 @@ export default function AddProductTable({
 
   const [isPopUp, setIsPopUp] = useState(false);
   const [sizeToColors, setSizeToColors] = useState([]);
+  const [userSizes, setUserSizes] = useState([{}]);
+
   console.log(sizeToColors, "SizeToColorssss");
 
   const handleChange = useCallback((e) => {
@@ -119,7 +122,7 @@ export default function AddProductTable({
             {/* Colors Modal */}
             <ModalComponent isOpen={isPopUp} onCancel={() => setIsPopUp(false)}>
               <CardComponent title="Add details">
-                {sizesData.map((el, index) => (
+                {userSizes.map((el, index) => (
                   <AddDetailsTable
                     setSizeToColors={setSizeToColors}
                     sizeToColors={sizeToColors}
@@ -127,8 +130,27 @@ export default function AddProductTable({
                     id={index}
                     colorsData={colorsData}
                     sizesData={sizesData}
+                    setUserSizes={setUserSizes}
+                    userSizes={userSizes}
                   />
                 ))}
+
+                <Button
+                  disabled={userSizes.length === sizesData.length}
+                  onClick={() => setUserSizes((prev) => [...prev, {}])}
+                >
+                  Add a Size
+                </Button>
+
+                <button
+                  onClick={() => {
+                    setUserSizes((prev) =>
+                      prev.filter((el, index) => index + 1 !== userSizes.length)
+                    );
+                  }}
+                >
+                  Remove a Size
+                </button>
               </CardComponent>
             </ModalComponent>
 
