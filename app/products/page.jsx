@@ -25,11 +25,11 @@ export default function Products() {
   function eligibleToAdd() {
     return (
       colorsData &&
-      colorsData.lenght > 0 &&
+      colorsData.length > 0 &&
       sizesData &&
-      sizesData.lenght > 0 &&
+      sizesData.length > 0 &&
       categoriesData &&
-      categoriesData.lenght > 0
+      categoriesData.length > 0
     );
   }
 
