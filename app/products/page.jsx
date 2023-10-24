@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import GET_COLORS from "@/apis/colors/getColors";
 import GET_SIZES from "@/apis/sizes/getSizes";
 import GET_CATEGORIES from "@/apis/categories/getCategories";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function Products() {
+function Products() {
   const [colorsData, setColorsData] = useState(null);
   const [sizesData, setSizesData] = useState(null);
   const [categoriesData, setCategoriesData] = useState(null);
@@ -43,3 +44,5 @@ export default function Products() {
     <h3>please add categories, sizes and colors first</h3>
   );
 }
+
+export default isAuthenticated(Products);

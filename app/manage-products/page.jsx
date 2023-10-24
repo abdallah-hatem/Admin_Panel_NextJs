@@ -3,8 +3,9 @@ import ProductsTable from "./components/productsTable";
 import { useEffect, useState } from "react";
 import GET_PRODUCTS from "@/apis/products/getProducts";
 import GET_SIZES from "@/apis/sizes/getSizes";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function ManageProducts() {
+function ManageProducts() {
   const [productsData, setProductsData] = useState(null);
   const [sizesData, setSizesData] = useState(null);
 
@@ -40,8 +41,6 @@ export default function ManageProducts() {
       };
     });
 
-    // manually added columns
-
     return columns;
   }
 
@@ -62,3 +61,5 @@ export default function ManageProducts() {
     <h2>No Products Found</h2>
   );
 }
+
+export default isAuthenticated(ManageProducts);

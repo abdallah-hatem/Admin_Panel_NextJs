@@ -10,8 +10,9 @@ import GET_PRODUCT_BY_ID from "@/apis/products/getProductById";
 import GET_SIZES from "@/apis/sizes/getSizes";
 import GET_COLORS from "@/apis/colors/getColors";
 import UPDATE_PRODUCT_AND_STC from "@/apis/products/updateProduct";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function EditProduct() {
+function EditProduct() {
   const defaultValues = useRef({
     desc: "",
     name: "",
@@ -30,12 +31,6 @@ export default function EditProduct() {
 
   const [isPopUp, setIsPopUp] = useState(false);
   const [sizeToColors, setSizeToColors] = useState([]);
-
-  // console.log(sizeToColors, "sizeToColors");
-  // console.log(productData, "productData");
-  // console.log(sizesData, "sizesData");
-  // console.log(colorsData, "colorsData");
-  // console.log(categoriesData, "categoriesData");
 
   async function getData() {
     GET_PRODUCT_BY_ID(productId).then((data) => setProductData(data.product));
@@ -63,8 +58,6 @@ export default function EditProduct() {
     }
   }
 
-  console.log(sizeToColors, "SizeToColorssss");
-
   const handleChange = useCallback((e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }, []);
@@ -85,7 +78,7 @@ export default function EditProduct() {
 
     console.log(data, "dataaa");
 
-    // UPDATE_PRODUCT_AND_STC(data, productId);
+    UPDATE_PRODUCT_AND_STC(data, productId);
   }
 
   const inputs = [
@@ -190,3 +183,5 @@ export default function EditProduct() {
     )
   );
 }
+
+export default isAuthenticated(EditProduct);

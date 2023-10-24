@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import ManageSizesTable from "./components/manageSizesTable";
 import GET_SIZES from "@/apis/sizes/getSizes";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function ManageSizes() {
+function ManageSizes() {
   const [sizesData, setSizsData] = useState([]);
 
   function getColorsData() {
@@ -20,28 +21,33 @@ export default function ManageSizes() {
   }, [sizesData]);
 
   function getCols() {
+    function hiddenColumns(el) {
+      const hiddenColumns = ["id"];
+      return hiddenColumns.includes(el);
+    }
+
     const colData = sizesData[0];
-    delete colData.id;
 
     const columns = Object.keys(colData).map((el) => {
-      return { field: el, caption: el };
+      return {
+        field: el,
+        caption: el,
+        visible: !hiddenColumns(el),
+      };
     });
 
     return columns;
   }
 
   function getData() {
-    const data = sizesData?.map((el) => {
-      delete el.id;
-      return el;
-    });
-
-    return data;
+    return sizesData;
   }
 
   return sizesData.length > 0 ? (
-    <ManageSizesTable coloumns={getCols()} data={getData()} />
+    <ManageSizesTable columns={getCols()} data={getData()} />
   ) : (
     <h3>please add Size first</h3>
   );
 }
+
+export default isAuthenticated(ManageSizes);

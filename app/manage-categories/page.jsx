@@ -1,12 +1,10 @@
 "use client";
-import { ApiBaseUrl } from "@/Services/Config";
-import CardComponent from "@/components/webComponents/CardComponent";
-import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
 import ManageCategoriesTable from "./components/manageCategoriesTable";
 import { useEffect, useState } from "react";
 import GET_CATEGORIES from "@/apis/categories/getCategories";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function ManageCategories() {
+function ManageCategories() {
   const [categoriesData, setCategoriesData] = useState([]);
 
   async function getCategoriesData() {
@@ -23,28 +21,33 @@ export default function ManageCategories() {
   }, [categoriesData]);
 
   function getCols() {
+    function hiddenColumns(el) {
+      const hiddenColumns = ["id"];
+      return hiddenColumns.includes(el);
+    }
+
     const colData = categoriesData[0];
-    delete colData.id;
 
     const columns = Object.keys(colData).map((el) => {
-      return { field: el, caption: el };
+      return {
+        field: el,
+        caption: el,
+        visible: !hiddenColumns(el),
+      };
     });
 
     return columns;
   }
 
   function getData() {
-    const data = categoriesData?.map((el) => {
-      delete el.id;
-      return el;
-    });
-
-    return data;
+    return categoriesData;
   }
 
   return categoriesData.length > 0 ? (
-    <ManageCategoriesTable coloumns={getCols()} data={getData()} />
+    <ManageCategoriesTable columns={getCols()} data={getData()} />
   ) : (
     <h3>please, add categories first</h3>
   );
 }
+
+export default isAuthenticated(ManageCategories);

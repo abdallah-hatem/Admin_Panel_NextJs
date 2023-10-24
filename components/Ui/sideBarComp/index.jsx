@@ -6,11 +6,9 @@ import { routes } from "@/routes/routes";
 
 import { FaBeer } from "react-icons/fa";
 import useWindowWidth from "@/hooks/windowWidth";
-// import useWindowWidth from "@/hooks/windowWidth";
 
 export default function SideBarComp() {
   const { push } = useRouter();
-
   const windowWidth = useWindowWidth();
 
   return (

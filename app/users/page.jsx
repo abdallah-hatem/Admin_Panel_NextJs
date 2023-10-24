@@ -1,14 +1,10 @@
 "use client";
 
-import LOGOUT from "@/apis/user/logout";
 import SIGNUP from "@/apis/user/signup";
 import CardComponent from "@/components/webComponents/CardComponent";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function Users() {
-  const { push } = useRouter();
-
+function Users() {
   async function handleSubmit(e) {
     e.preventDefault();
     const fomrData = new FormData(e.target);
@@ -18,10 +14,6 @@ export default function Users() {
     const signupData = await SIGNUP(data);
   }
 
-  async function handleLogout() {
-    Cookies.remove("jwt");
-    push("/login");
-  }
   return (
     <CardComponent title="Add users">
       <form onSubmit={handleSubmit} style={{ padding: 10 }}>
@@ -33,10 +25,7 @@ export default function Users() {
           Submit
         </button>
       </form>
-
-      <button name="button" onClick={handleLogout}>
-        Logout
-      </button>
     </CardComponent>
   );
 }
+export default isAuthenticated(Users);

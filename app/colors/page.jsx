@@ -2,8 +2,9 @@
 
 import ADD_COLOR from "@/apis/colors/addColors";
 import CardComponent from "@/components/webComponents/CardComponent";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function Colors() {
+function Colors() {
   async function handleSubmit(e) {
     e.preventDefault();
     const fomrData = new FormData(e.target);
@@ -27,3 +28,6 @@ export default function Colors() {
     </CardComponent>
   );
 }
+
+export default isAuthenticated(Colors);
+

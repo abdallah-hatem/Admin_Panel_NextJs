@@ -2,8 +2,9 @@
 
 import ADD_SIZE from "@/apis/sizes/addSize";
 import CardComponent from "@/components/webComponents/CardComponent";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function Sizes() {
+function Sizes() {
   async function handleSubmit(e) {
     e.preventDefault();
     const fomrData = new FormData(e.target);
@@ -25,3 +26,4 @@ export default function Sizes() {
     </CardComponent>
   );
 }
+export default isAuthenticated(Sizes);

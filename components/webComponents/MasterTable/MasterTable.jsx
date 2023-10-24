@@ -126,6 +126,7 @@ function MasterTable({
   allowColumnReordering,
   allowSelection = false,
   onCellClick,
+  onRowUpdated,
 }) {
   const { t, i18n } = useTranslation();
 
@@ -207,6 +208,7 @@ function MasterTable({
   return (
     <React.Fragment>
       <DataGrid
+        onRowUpdated={onRowUpdated}
         dataSource={data}
         disabled={disabled}
         id={id}

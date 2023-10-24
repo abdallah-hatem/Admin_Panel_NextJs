@@ -1,11 +1,14 @@
 "use client";
 
+import DELETE_USER_BY_ID from "@/apis/user/deleteUserById";
 import GET_USERS from "@/apis/user/getUsers";
+import UPDATE_USER_BY_ID from "@/apis/user/updateUser";
 import CardComponent from "@/components/webComponents/CardComponent";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 import MasterTable from "@/components/webComponents/MasterTable/MasterTable";
 import { useEffect, useState } from "react";
 
-export default function ManageUsers() {
+function ManageUsers() {
   const [users, setUsers] = useState([]);
 
   function getUsers() {
@@ -17,24 +20,26 @@ export default function ManageUsers() {
   }, []);
 
   function getCols() {
+    function hiddenColumns(el) {
+      const hiddenColumns = ["id", "cart", "password"];
+      return hiddenColumns.includes(el);
+    }
+
     const colData = users[0];
-    delete colData.id;
-    delete colData.cart;
 
     const columns = Object.keys(colData).map((el) => {
-      return { field: el, caption: el };
+      return {
+        field: el,
+        caption: el,
+        visible: !hiddenColumns(el),
+      };
     });
 
     return columns;
   }
 
   function getData() {
-    const data = users.map((el) => {
-      delete el.id;
-      delete el.cart;
-      return el;
-    });
-    return data;
+    return users;
   }
 
   return (
@@ -48,6 +53,12 @@ export default function ManageUsers() {
           dataSource={getData()}
           colAttributes={getCols()}
           ColoredRows
+          onRowRemoving={(e) => DELETE_USER_BY_ID(e.data.id)}
+          onRowUpdated={(e) => {
+            const { id, ...data } = e.data;
+
+            UPDATE_USER_BY_ID(data, id);
+          }}
         />
       ) : (
         <h3>please add a user first</h3>
@@ -55,3 +66,5 @@ export default function ManageUsers() {
     </CardComponent>
   );
 }
+
+export default isAuthenticated(ManageUsers);

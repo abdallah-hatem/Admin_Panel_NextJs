@@ -1,10 +1,8 @@
 "use client";
 
 import LOGIN from "@/apis/user/login";
-import LOGOUT from "@/apis/user/logout";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 
 export default function Login() {
   const { push } = useRouter();

@@ -2,12 +2,9 @@
 
 import ADD_CATEGORY from "@/apis/categories/addCategory";
 import CardComponent from "@/components/webComponents/CardComponent";
-import { useRouter } from "next/navigation";
-// import Cookies from "js-cookie";
+import isAuthenticated from "@/components/webComponents/IsAuth";
 
-export default function Categories() {
-  const { push } = useRouter();
-
+function Categories() {
   async function handleSubmit(e) {
     e.preventDefault();
     const fomrData = new FormData(e.target);
@@ -29,3 +26,5 @@ export default function Categories() {
     </CardComponent>
   );
 }
+
+export default isAuthenticated(Categories);

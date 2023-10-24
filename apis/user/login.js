@@ -1,6 +1,5 @@
 import { ApiBaseUrl } from "@/Services/Config";
 import REQUEST from "@/Services/Request";
-import { getCookie } from "cookies-next";
 
 export default async function LOGIN(data) {
   return await REQUEST({
