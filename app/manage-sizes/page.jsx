@@ -42,6 +42,7 @@ export default function ManageSizes() {
   return sizesData.length > 0 ? (
     <ManageSizesTable coloumns={getCols()} data={getData()} />
   ) : (
+    
     <h3>please add Size first</h3>
   );
 }
