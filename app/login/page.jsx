@@ -1,11 +1,13 @@
 "use client";
 
 import LOGIN from "@/apis/user/login";
+import { useAuthContext } from "@/context/auth";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
   const { push } = useRouter();
+  const { setIsAuth } = useAuthContext();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +24,7 @@ export default function Login() {
         Cookies.set("jwt", token, { expires });
 
         push("/");
+        setIsAuth(true);
       }
     }
   }
