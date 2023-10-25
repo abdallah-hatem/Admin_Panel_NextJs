@@ -28,4 +28,4 @@ function Users() {
     </CardComponent>
   );
 }
-export default isAuthenticated(Users);
+export default Users;
