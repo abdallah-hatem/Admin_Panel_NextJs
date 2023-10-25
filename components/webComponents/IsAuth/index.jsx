@@ -1,19 +1,19 @@
 "use client";
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
-import isAuth from "@/utils/auth";
+import { useAuthContext } from "@/context/auth";
 
 export default function isAuthenticated(Component) {
   return function IsAuth(props) {
-    const auth = isAuth();
+    const { isAuth } = useAuthContext();
 
     useEffect(() => {
-      if (!auth) {
+      if (!isAuth) {
         return redirect("/login");
       }
     }, []);
 
-    if (!auth) {
+    if (!isAuth) {
       return null;
     }
 
