@@ -16,8 +16,6 @@ export default function AddProductTable({
     desc: "",
     name: "",
     price: "",
-    quantity: "",
-    sizeId: "",
     categoryId: "",
   });
   const [values, setValues] = useState(defaultValues.current);

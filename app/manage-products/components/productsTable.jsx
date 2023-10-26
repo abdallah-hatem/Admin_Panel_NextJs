@@ -14,9 +14,6 @@ export default function ProductsTable({ columns, data }) {
   columns && console.log(columns, "Colssssss");
   const [isPopUp, setIsPopUp] = useState(false);
   const [popUpData, setPopUpData] = useState(null);
-  const [finalData, setFinalData] = useState([]);
-
-  console.log(popUpData);
 
   const masterButtons = [
     {

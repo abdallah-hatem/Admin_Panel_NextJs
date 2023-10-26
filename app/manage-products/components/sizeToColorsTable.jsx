@@ -1,5 +1,7 @@
-import { Table, Tag } from "antd";
+import { Table, Tag, Typography } from "antd";
 export default function SizeToColorsTable({ defaultData, productId }) {
+  const { Text } = Typography;
+
   const columns = [
     {
       title: "Size",
@@ -42,5 +44,27 @@ export default function SizeToColorsTable({ defaultData, productId }) {
     return data;
   }
 
-  return defaultData && <Table columns={columns} dataSource={getTableData()} />;
+  return (
+    defaultData && (
+      <Table
+        summary={(data) => {
+          let total = 0;
+          data.forEach((el) => (total += el.quantity));
+
+          return (
+            <>
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total Qty</Table.Summary.Cell>
+                <Table.Summary.Cell index={1} colSpan={2}>
+                  <Text type="danger">{total}</Text>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            </>
+          );
+        }}
+        columns={columns}
+        dataSource={getTableData()}
+      />
+    )
+  );
 }

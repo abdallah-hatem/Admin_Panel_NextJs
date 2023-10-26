@@ -11,10 +11,7 @@ import { useAuthContext } from "@/context/auth";
 export default function SideBarComp() {
   const { push } = useRouter();
   const windowWidth = useWindowWidth();
-
   const { isAuth } = useAuthContext();
-
-  console.log(isAuth, "auth");
 
   return (
     <Sidebar collapsed={windowWidth < 800} className="side-bar">
